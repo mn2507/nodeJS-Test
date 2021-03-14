@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const test = require("./app/routes/test.route");
 const register = require("./app/routes/register.route")
 const login = require("./app/routes/login.route")
+const getProfile = require("./app/routes/getProfile.route");
+const update = require("./app/routes/update.route");
 
 // initialize express app
 const app = express();
@@ -17,6 +19,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/tests", test);
 app.use("/register", register);
 app.use("/login/session", login);
+app.use("/user", getProfile);
+app.use("/profile", update);
 
 // connection to mongodb
 let dev_db_url =
