@@ -40,6 +40,7 @@ exports.signUp = function (req, res, next) {
                         {
                           username: userCreated.username,
                           displayusername: userCreated.displayusername,
+                          id: userCreated._id,
                         },
                         tokenconfig.secret,
                         { expiresIn: "30 days" }

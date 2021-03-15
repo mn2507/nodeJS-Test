@@ -1,10 +1,10 @@
 const tokenconfig = require("../config/token");
 const jwt = require("jsonwebtoken");
 const users = require("../models/users.model");
+const session = require("../models/session.model");
 const bcrypt = require("bcrypt");
 
 exports.signIn = function (req, res, next) {
-    console.log(req.body)
   users.findOne(
     {
       username: req.body.username,
@@ -14,7 +14,6 @@ exports.signIn = function (req, res, next) {
         next(err);
       } else {
         if (!userInfo) {
-          console.log("userinfo " + userInfo);
           return res.status(403).send({
             errors: "Username Invalid",
           });
@@ -26,10 +25,14 @@ exports.signIn = function (req, res, next) {
               if (err) {
                 next(err);
               } else if (passwordResult == true) {
+                session.create({
+                  user_agent: req.get("User-Agent"),
+                  username: userInfo.username,
+                });
                 const tokenSign = jwt.sign(
                   {
                     username: userInfo.username,
-                    displayusername: userInfo.displayusername,
+                    id: userInfo._id,
                   },
                   tokenconfig.secret,
                   { expiresIn: "30 days" }
