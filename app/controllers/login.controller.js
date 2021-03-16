@@ -10,21 +10,17 @@ exports.signIn = function (req, res, next) {
       username: req.body.username,
     },
     function (err, userInfo) {
-      if (err) {
-        next(err);
-      } else {
-        if (!userInfo) {
-          return res.status(403).send({
+      err ? next(err) : null;
+      !userInfo
+        ? res.status(403).send({
             errors: "Username Invalid",
-          });
-        } else {
-          bcrypt.compare(
+          })
+        : bcrypt.compare(
             req.body.password,
             userInfo.password,
             function (err, passwordResult) {
-              if (err) {
-                next(err);
-              } else if (passwordResult == true) {
+              err ? next(err) : null;
+              if (passwordResult == true) {
                 session.create({
                   user_agent: req.get("User-Agent"),
                   username: userInfo.username,
@@ -49,8 +45,6 @@ exports.signIn = function (req, res, next) {
               }
             }
           );
-        }
-      }
     }
   );
 };

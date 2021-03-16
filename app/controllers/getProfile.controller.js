@@ -6,20 +6,19 @@ exports.getProfile = function (req, res, next) {
   const token = req.get("Authorization");
   if (token) {
     jwt.verify(token, tokenconfig.secret, (err, decoded) => {
-      if (err) {
-        return res.status(403).send({
-          errors: "Token is not valid",
+      err
+        ? res.status(403).send({
+            errors: "Token is not valid",
+          })
+        : null;
+      users.findById({ _id: decoded.id }, function (err, foundUser) {
+        err ? next(err) : null;
+        res.status(200).send({
+          username: foundUser.username,
+          displayusername: foundUser.displayusername,
+          userid: foundUser._id,
         });
-      } else {
-        users.findById({ _id: decoded.id }, function (err, foundUser) {
-          if (err) return next(err);
-          res.status(200).send({
-            username: foundUser.username,
-            displayusername: foundUser.displayusername,
-            userid: foundUser._id,
-          });
-        });
-      }
+      });
     });
   } else {
     return res.status(403).send({

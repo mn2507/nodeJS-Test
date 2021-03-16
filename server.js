@@ -44,7 +44,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.get("/", function (req, res) {
   res.json({
-    status: true,
     message: "Welcome to NodeJS Test",
   });
 });

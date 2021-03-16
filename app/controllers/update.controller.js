@@ -6,22 +6,21 @@ exports.updateProfile = function (req, res, next) {
   const token = req.get("Authorization");
   if (token) {
     jwt.verify(token, tokenconfig.secret, (err, decoded) => {
-      if (err) {
-        return res.status(403).send({
-          errors: "Token is not valid",
-        });
-      } else {
-        users.findByIdAndUpdate(
-          { _id: decoded.id },
-          { displayusername: req.body.displayusername },
-          function (err, updated) {
-            if (err) return next(err);
-            res.status(403).send({
-              message: "displayusername updated",
-            });
-          }
-        );
-      }
+      err
+        ? res.status(403).send({
+            errors: "Token is not valid",
+          })
+        : null;
+      users.findByIdAndUpdate(
+        { _id: decoded.id },
+        { displayusername: req.body.displayusername },
+        function (err, updated) {
+          err ? next(err) : null;
+          res.status(200).send({
+            message: "displayusername updated",
+          });
+        }
+      );
     });
   } else {
     return res.status(403).send({

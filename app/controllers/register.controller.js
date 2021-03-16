@@ -11,31 +11,25 @@ exports.signUp = function (req, res, next) {
       username: req.body.username,
     },
     function (err, userExists) {
-      if (err) {
-        next(err);
-      } else {
-        if (userExists) {
-          return res.status(403).send({
+      err ? next(err) : null;
+      userExists
+        ? res.status(403).send({
             errors: "Username already exists",
-          });
-        } else {
-          bcrypt.hash(
+          })
+        : bcrypt.hash(
             req.body.password,
             SALT_ROUNDS,
             function (err, hashPassword) {
-              if (err) {
-                next(err);
-              } else {
-                users.create(
-                  {
-                    username: req.body.username,
-                    password: hashPassword,
-                    displayusername: req.body.displayusername,
-                  },
-                  function (err, userCreated) {
-                    if (err) {
-                      next(err);
-                    } else {
+              err
+                ? next(err)
+                : users.create(
+                    {
+                      username: req.body.username,
+                      password: hashPassword,
+                      displayusername: req.body.displayusername,
+                    },
+                    function (err, userCreated) {
+                      err ? next(err) : null;
                       const tokenSign = jwt.sign(
                         {
                           username: userCreated.username,
@@ -48,16 +42,12 @@ exports.signUp = function (req, res, next) {
                       res.status(200).send({
                         token: tokenSign,
                         displayusername: userCreated.displayusername,
-                        userid:userCreated._id,
+                        userid: userCreated._id,
                       });
                     }
-                  }
-                );
-              }
+                  );
             }
           );
-        }
-      }
     }
   );
 };
