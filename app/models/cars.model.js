@@ -7,5 +7,6 @@ let CarSchema = new Schema(
     brand: { type: String, required: true, max: 150 },
     description: { type: String, required: true },
   },
+  { timestamps: true }
 );
 module.exports = mongoose.model("cars", CarSchema);

@@ -6,9 +6,9 @@ exports.getCar = function (req, res) {
   var pagesize = parseInt(req.body.pagesize) || 10;
   const skip = pagesize * (pageindex - 1);
 
-  pageindex < 0 || pageindex === 0
+  pageindex <= 0
     ? res.status(403).send({
-        errors: "invalid page number, should start with 1",
+        errors: "Invalid page number, should start with 1",
       })
     : null;
 
