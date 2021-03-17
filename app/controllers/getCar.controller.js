@@ -13,7 +13,10 @@ exports.getCar = function (req, res) {
     : null;
 
   carList.count({}, async function (err, resultCount) {
-    const carData = await carList.find({}).skip(skip).limit(pagesize);
+    const carData = await carList
+      .find(req.body.carname ? { carname: req.body.carname } : {})
+      .skip(skip)
+      .limit(pagesize);
     err
       ? res.status(403).send({
           errors: "Error fetching data",
