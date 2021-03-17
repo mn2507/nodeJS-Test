@@ -2,14 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const test = require("./app/routes/test.route");
-const register = require("./app/routes/register.route");
-const login = require("./app/routes/login.route");
-const logout = require("./app/routes/logout.route");
-const getcar = require("./app/routes/getCar.route");
-const getProfile = require("./app/routes/getProfile.route");
-const update = require("./app/routes/update.route");
-const session = require("./app/routes/session.route");
+const User = require("./app/routes/user.route");
 
 var l = console.log.bind(console, "LOG:");
 var w = console.warn.bind(console, "WARN:");
@@ -24,14 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger("dev"));
 
 // routes
-app.use("/user", test);
-app.use("/user", register);
-app.use("/user", login);
-app.use("/user", logout);
-app.use("/user", getcar);
-app.use("/user", getProfile);
-app.use("/user", update);
-app.use("/user", session);
+app.use("/user", User)
 
 // connection to mongodb
 let dev_db_url =
