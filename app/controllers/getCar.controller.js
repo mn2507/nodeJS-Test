@@ -24,12 +24,15 @@ exports.getCar = function (req, res) {
       : null;
     const result = await Promise.all(
       carData.map(async (car) => {
-        const carVarianceInfo = await carVariance.find({ car_id: car._id });
+        const carVarianceInfo = await carVariance
+          .find({ car_id: car._id })
+          .sort({ price: 1 });
         return {
           id: car._id,
           carname: car.carname,
           brand: car.brand,
           description: car.description,
+          image: car.image,
           carVarianceInfo,
         };
       })

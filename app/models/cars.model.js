@@ -6,6 +6,7 @@ let CarSchema = new Schema(
     carname: { type: String, max: 150 },
     brand: { type: String, required: true, max: 150 },
     description: { type: String, required: true },
+    image: { type: String, required: true },
   },
   { timestamps: true }
 );

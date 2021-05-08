@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const User = require("./app/routes/user.route");
+const cors = require("cors");
 
 var l = console.log.bind(console, "LOG:");
 var w = console.warn.bind(console, "WARN:");
@@ -14,10 +15,11 @@ const app = express();
 app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 app.use(logger("dev"));
 
 // routes
-app.use("/user", User)
+app.use("/user", User);
 
 // connection to mongodb
 let dev_db_url =
