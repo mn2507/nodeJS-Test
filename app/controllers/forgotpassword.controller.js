@@ -26,11 +26,11 @@ exports.forgotPassword = function (req, res, next) {
           { password: hashPassword },
           function (err, results) {
             if (err) {
-              res.status(400).send({Error: err});
+              res.status(400).send({message: err});
               return;
             }
             if (!results) {
-              res.status(400).send({ Error: "No email found in database" });
+              res.status(400).send({ message: "No email found in database" });
               return;
             } else {
               var transporter = nodemailer.createTransport({
@@ -51,7 +51,7 @@ exports.forgotPassword = function (req, res, next) {
               transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                   console.log(error);
-                  res.status(400).send("Error in Sending Email");
+                  res.status(400).send({message: "Error in Sending Email: " + error});
                 } else {
                   console.log("Email sent: " + info.response);
                   res.status(200).send({

@@ -22,7 +22,7 @@ exports.changePassword = function (req, res, next) {
     err ? next(err) : null;
     !userInfo
       ? res.status(403).send({
-          errors: "Username does not exist",
+          message: "Username does not exist",
         })
       : bcrypt.compare(
           req.body.currentpassword,
@@ -43,7 +43,7 @@ exports.changePassword = function (req, res, next) {
                         },
                         function (err) {
                           if (err) {
-                            res.status(400).send("Error: " + err);
+                            res.status(400).send({ message: "Error: " + err });
                             return;
                           } else {
                             res.status(200).send({
@@ -55,8 +55,8 @@ exports.changePassword = function (req, res, next) {
                 }
               );
             } else {
-              return res.status(403).send({
-                errors: "Incorrect Current Password",
+              return res.status(200).send({
+                message: "Incorrect Current Password",
               });
             }
           }
