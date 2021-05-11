@@ -30,7 +30,7 @@ exports.forgotPassword = function (req, res, next) {
               return;
             }
             if (!results) {
-              res.status(400).send({ message: "No email found in database" });
+              res.status(200).send({ message: "No email found in database" });
               return;
             } else {
               var transporter = nodemailer.createTransport({
