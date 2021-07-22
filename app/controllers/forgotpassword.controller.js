@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
 exports.forgotPassword = function (req, res, next) {
-  if (!req?.body?.email) {
+  if (!req.body.email) {
     res.status(400).json({
       status: "false",
       message: "Your request body doesn't have email address.",
@@ -16,7 +16,7 @@ exports.forgotPassword = function (req, res, next) {
   const newPassword = Math.random().toString(36).slice(2);
   console.log("NEW PASSWORD: " + newPassword);
 
-  const email = { username: req?.body?.email };
+  const email = { username: req.body.email };
 
   bcrypt.hash(newPassword, SALT_ROUNDS, function (err, hashPassword) {
     err
@@ -43,7 +43,7 @@ exports.forgotPassword = function (req, res, next) {
 
               var mailOptions = {
                 from: "angularcarlist@gmail.com",
-                to: req?.body?.email,
+                to: req.body.email,
                 subject: "Password Reset",
                 text: "Your new password is " + newPassword,
               };

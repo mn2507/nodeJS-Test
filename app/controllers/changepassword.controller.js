@@ -5,9 +5,9 @@ const SALT_ROUNDS = 10;
 
 exports.changePassword = function (req, res, next) {
   if (
-    !req?.body?.currentpassword ||
-    !req?.body?.newpassword ||
-    !req?.body?.email
+    !req.body.currentpassword ||
+    !req.body.newpassword ||
+    !req.body.email
   ) {
     res.status(400).json({
       status: "false",
@@ -16,7 +16,7 @@ exports.changePassword = function (req, res, next) {
     return;
   }
 
-  const email = { username: req?.body?.email };
+  const email = { username: req.body.email };
 
   users.findOne(email, function (err, userInfo) {
     err ? next(err) : null;
